@@ -202,7 +202,7 @@ CallbackReturn VescSystemHardware::on_deactivate(
 }
 
 return_type VescSystemHardware::read(
-    const rclcpp::Time&, const rclcpp::Duration&)
+    const rclcpp::Time&, const rclcpp::Duration& period)
 {
     try
     {
@@ -217,7 +217,16 @@ return_type VescSystemHardware::read(
     {
         auto& paramGroup = _parameterGroups[i];
         const auto status = paramGroup.getStatus1();
-        const auto motorRPM = status.rpm / ERPM_DIVISOR;
+
+        double motorRPM;
+
+        // THIS FIXES EVERYTHING WITH ODOM
+        if (status.rpm > 4294967296.0 / 2) {
+            int32_t rpm_raw = static_cast<int32_t>(static_cast<uint32_t>(status.rpm));
+            motorRPM = static_cast<double>(rpm_raw) / ERPM_DIVISOR;
+        } else {
+            motorRPM = status.rpm / ERPM_DIVISOR;
+        }
 
         // note (and same for write() but in reverse):
         // We need to convert from motor RPM to wheel radians per second,
@@ -235,6 +244,9 @@ return_type VescSystemHardware::read(
         // TODO: Test to see which would be more appropriate to use
         // (probably motor temp)
         _realTemperatures[i] = std::max(status4.tempFet, status4.tempMotor);
+
+        // Need position values for robot_state
+        _realPositions[i] += _realSpeeds[i] * period.seconds(); 
     }
 
     return return_type::OK;
