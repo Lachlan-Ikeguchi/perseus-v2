@@ -6,21 +6,23 @@ This tutorial provides a step-by-step guide to configure a Raspberry Pi running 
 
 ### Hardware
 
-- Raspberry Pi (e.g., Raspberry Pi 4 or 5 with 8GB RAM recommended for ROS2)
+- PC (laptop etc)
+- Raspberry Pi 4 or 5 with at least 4GB RAM recommended running Ubuntu 24.04
 - MPU6050 I2C sensor module (or another I2C sensor with known address and register map)
-- Jumper wires and a breadboard for connections
-- Power supply and microSD card (16GB or larger)
-- Optional: Active cooler and NVMe SSD for improved performance on Raspberry Pi 5
+- Your Pi and Laptop connected to the same network
+- Power supply and a USB drive (if neededing to install Ubuntu 24.04 on the Pi)
+- Optional: Jumper wires and a breadboard for connections
+- Note for the Pi 5: An active cooler will help performance
+- Note for the Pi 5: an NVMe SSD (requiring an additional board) will dramatically improved performance
 
 ### Software
 
-- Ubuntu 24.04 LTS installed on the Raspberry Pi (required for ROS2 Jazzy Tier 1 support)
+- Ubuntu 24.04 LTS installed on the Raspberry Pi
 - Basic familiarity with Linux terminal commands, Python and/or C++ programming
 
-### Tools
+# Overview
 
-- Internet connection for downloading packages
-- A computer for SSH access (optional, for headless setup)
+You will be setting up a I2C device to sense the environment, turn this into data which is read by the Raspberry Pi. Then in turn the Raspberry Pi will take this data and run a ROS2 node (which you will create) to publish this data as a ROS2 topic (in the appropriate message structure). Then on your PC which is connected to the same network, you will visualise the data being published in real time using RViz2.
 
 ## Step 0: Set up your PC according to the Getting Started
 
@@ -32,7 +34,7 @@ Follow the first steps of set up for Perseus development here: [Getting Started]
 
 1. Download the Ubuntu 24.04 LTS image for Raspberry Pi from the [official Ubuntu website](https://ubuntu.com/download/raspberry-pi)
 2. Use Raspberry Pi Imager (or a similar tool) to flash the image onto a microSD card
-3. Insert the microSD card into the Raspberry Pi, connect peripherals (monitor, keyboard, or use SSH for headless setup), and power on the device
+3. If using an SD Card insert the microSD card into the Raspberry Pi, connect peripherals (monitor, keyboard, or use SSH for headless setup), and power on the device
 4. Follow the on-screen prompts to configure Ubuntu, including setting a username, password, and Wi-Fi credentials if applicable
 
 ### Update the system packages
