@@ -56,9 +56,27 @@ The output should indicate Ubuntu 24.04 LTS.
 Now log in to (via ssh or locally) the Pi and undertake the Getting Started steps on the Pi.
 https://roar-qutrc.github.io/home/getting-started.html
 
+### Create a New Feature Branch
+
+Create a new branch specifically for the I2C sensor development:
+
+```bash
+# Ensure you're starting from the latest main branch
+git checkout main
+git pull
+```
+
+# Create and switch to a new feature branch
+
+```bash
+git checkout -b feat/i2c-device
+```
+
 ## Step 3: Configure I2C on the Raspberry Pi
 
 ### Install I2C Tools
+
+!Might need to nix-ify this!
 
 Install tools for interacting with I2C devices:
 
